@@ -25,7 +25,7 @@ public class EstudianteServiceImpl implements IEstudianteService {
 
     @Override
     public void actualizarPorId(Estudiante estudiante) {
-        this.estudianteRepo.actualizarParcialPorId(estudiante);
+        this.estudianteRepo.actualizarPorId(estudiante);
      
     }
 
