@@ -27,9 +27,9 @@ public class EstudianteController {
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Consultar estudiante por ID", description = "Obtiene un estudiante específico por su ID.")
     public Response consultarPorId(@PathParam("id") Integer id) {
-
         return Response.status(227).entity(this.estudianteService.buscarPorId(id)).build();
     }
 
@@ -46,24 +46,34 @@ public class EstudianteController {
 
     @POST
     @Path("")
-    @Consumes(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Guardar un estudiante", description= "Permite guardar un estudiante en el sistema.")
-    public void guardar(@RequestBody Estudiante estudiante) {
+    public Response guardar(@RequestBody Estudiante estudiante) {
         this.estudianteService.guardar(estudiante);
+        return Response.status(Response.Status.CREATED).entity(estudiante).build();
+       
 
     }
 
     @PUT
     @Path("/{id}")
-    public void actualizarPorId(@RequestBody Estudiante estudiante, @PathParam("id") Integer id) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Actualizar estudiante por ID", description = "Actualiza completamente un estudiante existente por su ID.")
+    public Response actualizarPorId(@RequestBody Estudiante estudiante, @PathParam("id") Integer id) {
         estudiante.setId(id);
         this.estudianteService.actualizarPorId(estudiante);
+        return Response.status(Response.Status.OK).entity(estudiante).build();
 
    }
 
    @PATCH
    @Path("/{id}")
-   public void actualizarParcialPorId(@RequestBody Estudiante estudiante, @PathParam("id") Integer id){
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Actualizar parcialmente estudiante por ID", description = "Actualiza campos específicos de un estudiante existente por su ID.")
+   public Response actualizarParcialPorId(@RequestBody Estudiante estudiante, @PathParam("id") Integer id){
     estudiante.setId(id);
         Estudiante e = this.estudianteService.buscarPorId(id);
         if (estudiante.getApellido() != null) {
@@ -76,11 +86,16 @@ public class EstudianteController {
             e.setFechaNacimiento(estudiante.getFechaNacimiento());            
         }        
         this.estudianteService.actualizarParcialPorId(e);
+        return Response.status(Response.Status.OK).entity(e).build();
     }
 
    @DELETE
    @Path("/{id}")
-   public void borrarPorId(@PathParam("id") Integer id){
+   @Produces(MediaType.APPLICATION_JSON)
+   @Operation(summary = "Borrar estudiante por ID", description = "Elimina un estudiante del sistema por su ID.")
+   public Response borrarPorId(@PathParam("id") Integer id){
     this.estudianteService.borrarPorId(id);
+    return Response.status(Response.Status.NO_CONTENT).build();
+    
    }
 }
