@@ -33,6 +33,7 @@ public class Estudiante {
 
     @Column(name = "estu_genero")
     private String genero;
+    
 
     //SET Y GET
 

@@ -35,6 +35,9 @@ public class Profesor {
     @Column (name = "profe_fecha_contratacion")
     private LocalDate fechaContratacion;
 
+    @Column (name = "profe_titulo")
+    private String titulo;
+
     //SET Y GET
 
     public Integer getId() {
@@ -85,8 +88,13 @@ public class Profesor {
         this.fechaContratacion = fechaContratacion;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
     
-
-
 
 }
