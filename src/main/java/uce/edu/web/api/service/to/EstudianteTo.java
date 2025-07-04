@@ -1,40 +1,39 @@
-package uce.edu.web.api.repository.modelo;
+package uce.edu.web.api.service.to;
 
+import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.ws.rs.core.UriInfo;
+import uce.edu.web.api.controller.EstudianteController;
 
+public class EstudianteTo {
 
-@Entity
-@Table(name = "estudiante")
-public class Estudiante {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   
-    @Column(name = "estu_id")
     private Integer id;
-    
-    @Column(name = "estu_nombre")
     private String nombre;
-    
-    @Column(name = "estu_apellido")
     private String apellido;
-    
-    @Column(name = "estu_fecha_nacimiento")
     private LocalDateTime fechaNacimiento;
-
-    @Column(name = "estu_genero")
     private String genero;
-    
 
-    //SET Y GET
+    public Map<String, String> _links = new HashMap<>();
 
+    public EstudianteTo(Integer id, String nombre, String apellido, LocalDateTime fechaNacimiento, String genero,
+            UriInfo uriInfo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.genero = genero;
+
+        URI todosHijos = uriInfo.getBaseUriBuilder().path(
+                EstudianteController.class).path(EstudianteController.class, "obtenerHijosPorId").build(id);
+
+        _links.put("hijos", todosHijos.toString());
+
+    }
+
+    // Setters y Getters
     public Integer getId() {
         return id;
     }
@@ -74,10 +73,5 @@ public class Estudiante {
     public void setGenero(String genero) {
         this.genero = genero;
     }
-
-
-
-
-
 
 }
