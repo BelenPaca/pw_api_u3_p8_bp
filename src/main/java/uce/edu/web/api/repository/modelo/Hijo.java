@@ -1,7 +1,9 @@
 package uce.edu.web.api.repository.modelo;
-import io.quarkus.Generated;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -23,7 +25,8 @@ public class Hijo {
     @Column(name="hijo_apellido")
     private String apellido;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "hijo_estudiante")
     private Estudiante estudiante;
 
@@ -34,6 +37,31 @@ public class Hijo {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
+    
     
 
 }

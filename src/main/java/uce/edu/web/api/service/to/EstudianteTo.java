@@ -16,22 +16,33 @@ public class EstudianteTo {
     private LocalDateTime fechaNacimiento;
     private String genero;
 
-    public Map<String, String> _links = new HashMap<>();
 
-    public EstudianteTo(Integer id, String nombre, String apellido, LocalDateTime fechaNacimiento, String genero,
-            UriInfo uriInfo) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.fechaNacimiento = fechaNacimiento;
-        this.genero = genero;
+    private Map<String, String> _links = new HashMap<>();
 
-        URI todosHijos = uriInfo.getBaseUriBuilder().path(
-                EstudianteController.class).path(EstudianteController.class, "obtenerHijosPorId").build(id);
 
-        _links.put("hijos", todosHijos.toString());
 
+    public void buildURI(UriInfo uriInfo) {
+            URI todosHijos = uriInfo.getBaseUriBuilder().path(
+            EstudianteController.class).path(EstudianteController.class, "obtenerHijosPorId").build(id);
+
+          _links.put("hijos", todosHijos.toString());
     }
+
+    public EstudianteTo() {
+        
+    }
+
+    // public EstudianteTo(Integer id, String nombre, String apellido, LocalDateTime fechaNacimiento, String genero,
+    //         UriInfo uriInfo) {
+    //     this.id = id;
+    //     this.nombre = nombre;
+    //     this.apellido = apellido;
+    //     this.fechaNacimiento = fechaNacimiento;
+    //     this.genero = genero;
+
+
+
+    // }
 
     // Setters y Getters
     public Integer getId() {
@@ -73,5 +84,15 @@ public class EstudianteTo {
     public void setGenero(String genero) {
         this.genero = genero;
     }
+
+    public Map<String, String> get_links() {
+        return _links;
+    }
+
+    public void set_links(Map<String, String> links) {
+        this._links = links;
+    }
+
+    
 
 }
