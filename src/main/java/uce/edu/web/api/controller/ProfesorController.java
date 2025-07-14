@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import uce.edu.web.api.repository.modelo.HijoP;
+import uce.edu.web.api.repository.modelo.Hijo;
 import uce.edu.web.api.repository.modelo.Profesor;
 import uce.edu.web.api.service.IProfesorService;
 import uce.edu.web.api.service.to.ProfesorTo;
@@ -111,15 +111,15 @@ public class ProfesorController {
     @GET
     @Path("/{id}/hijos")
 
-    public List<HijoP> obtenerHijosPorId(@PathParam("id") Integer id) {
+    public List<Hijo> obtenerHijosPorId(@PathParam("id") Integer id) {
 
-        HijoP hijo1 = new HijoP();
+        Hijo hijo1 = new Hijo();
         hijo1.setNombre("Belen");
 
-        HijoP hijo2 = new HijoP();
+        Hijo hijo2 = new Hijo();
         hijo2.setNombre("Alex");
 
-        List<HijoP> hijosP = new ArrayList<>();
+        List<Hijo> hijosP = new ArrayList<>();
         hijosP.add(hijo1);
         hijosP.add(hijo2);
         return hijosP;

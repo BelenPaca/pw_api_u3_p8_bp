@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -50,6 +51,8 @@ public class EstudianteController {
     // ?genero=F&provincia=Pichincha
     @GET
     @Path("")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Consultar todos los estudiantes", description = "Obtiene una lista de todos los estudiantes registrados en el sistema.")
     public Response consultarTodos(@QueryParam("genero") String genero,
             @QueryParam("provincia") String provincia) {
@@ -59,43 +62,48 @@ public class EstudianteController {
 
     @POST
     @Path("")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Guardar un estudiante", description = "Permite guardar un estudiante en el sistema.")
-    public Response guardar(@RequestBody Estudiante estudiante) {
-        this.estudianteService.guardar(estudiante);
-        return Response.status(Response.Status.CREATED).entity(estudiante).build();
+    public Response guardar(@RequestBody EstudianteTo estudianteTo) {
+        this.estudianteService.guardar(estudianteTo);
+        return Response.status(Response.Status.CREATED).entity(estudianteTo).build();
 
     }
 
     @PUT
     @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Actualizar estudiante por ID", description = "Actualiza completamente un estudiante existente por su ID.")
-    public Response actualizarPorId(@RequestBody Estudiante estudiante, @PathParam("id") Integer id) {
-        estudiante.setId(id);
-        this.estudianteService.actualizarPorId(estudiante);
-        return Response.status(Response.Status.OK).entity(estudiante).build();
+    public Response actualizarPorId(@RequestBody EstudianteTo estudianteTo, @PathParam("id") Integer id) {
+        estudianteTo.setId(id);
+        this.estudianteService.actualizarPorId(estudianteTo);
+        return Response.status(Response.Status.OK).build();
 
     }
 
-    // @PATCH
-    // @Path("/{id}")
-    // @Operation(summary = "Actualizar parcialmente estudiante por ID", description
-    // = "Actualiza campos específicos de un estudiante existente por su ID.")
-    // public Response actualizarParcialPorId(@RequestBody Estudiante estudiante,
-    // @PathParam("id") Integer id) {
-    // estudiante.setId(id);
-    // Estudiante e = this.estudianteService.buscarPorId(id);
-    // if (estudiante.getApellido() != null) {
-    // e.setApellido(estudiante.getApellido());
-    // }
-    // if (estudiante.getNombre() != null) {
-    // e.setNombre(estudiante.getNombre());
-    // }
-    // if (estudiante.getFechaNacimiento() != null) {
-    // e.setFechaNacimiento(estudiante.getFechaNacimiento());
-    // }
-    // this.estudianteService.actualizarParcialPorId(e);
-    // return Response.status(Response.Status.OK).entity(e).build();
-    // }
+    @PATCH
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Actualizar parcialmente estudiante por ID", description = "Actualiza campos específicos de un estudiante existente por su ID.")
+
+    public Response actualizarParcialPorId(@RequestBody EstudianteTo estudianteTo, @PathParam("id") Integer id) {
+        estudianteTo.setId(id);
+        EstudianteTo eTo = EstudianteMapper.toTo(this.estudianteService.buscarPorId(id));
+        if (estudianteTo.getApellido() != null) {
+            eTo.setApellido(estudianteTo.getApellido());
+        }
+        if (estudianteTo.getFechaNacimiento() != null) {
+            eTo.setFechaNacimiento(estudianteTo.getFechaNacimiento());
+        }
+        if (estudianteTo.getNombre() != null) {
+            eTo.setNombre(estudianteTo.getNombre());
+        }
+        this.estudianteService.actualizarParcialPorId((eTo));
+        return Response.status(Response.Status.OK).build();
+    }
 
     @DELETE
     @Path("/{id}")
