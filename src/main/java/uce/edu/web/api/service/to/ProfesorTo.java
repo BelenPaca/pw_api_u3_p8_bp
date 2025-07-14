@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.UriInfo;
 import uce.edu.web.api.controller.ProfesorController;
 
 public class ProfesorTo {
-     private Integer id;
+    private Integer id;
     private String nombre;
     private String apellido;
     private String especialidad;
@@ -20,22 +20,17 @@ public class ProfesorTo {
 
     public Map<String, String>_links = new HashMap<>();
 
-    public ProfesorTo(Integer id, String nombre, String apellido, String especialidad, String email,
-            LocalDate fechaContratacion, String titulo, UriInfo uriInfo) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.especialidad = especialidad;
-        this.email = email;
-        this.fechaContratacion = fechaContratacion;
-        this.titulo = titulo;
-
+    public void buildURI(UriInfo uriInfo) {
         URI todosHijos = uriInfo.getBaseUriBuilder()
                 .path(ProfesorController.class).path(ProfesorController.class, "obtenerHijosPorId").build(id);
 
                 _links.put("hijosP", todosHijos.toString());
 
 
+    }
+
+    public ProfesorTo() {
+        
     }
 
     public Integer getId() {
@@ -93,5 +88,15 @@ public class ProfesorTo {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
+    public Map<String, String> get_links() {
+        return _links;
+    }
+
+    public void set_links(Map<String, String> _links) {
+        this._links = _links;
+    }
+
+    
 
 }

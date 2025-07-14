@@ -8,11 +8,11 @@ import uce.edu.web.api.service.to.ProfesorTo;
 
 public interface IProfesorService {
 
-    public ProfesorTo buscarPorID (Integer id, UriInfo uriInfo);
+    public Profesor buscarPorID (Integer id);
     public List<Profesor> buscarTodos(String titulo);
-    public void actualizarPorId(Profesor profesor);
-    public void actualizarParcialPorId(Profesor profesor);
+    public void actualizarPorId(ProfesorTo profesorTo);
+    public void actualizarParcialPorId(ProfesorTo profesorTo);
     public void borrarPorId(Integer id);
-    public void guardar(Profesor profesor);
+    public void guardar(ProfesorTo profesorTo);
 
 }
