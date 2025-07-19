@@ -2,9 +2,13 @@ package uce.edu.web.api.controller;
 
 import java.util.List;
 
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.ClaimValue;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -20,7 +24,6 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import uce.edu.web.api.repository.modelo.Estudiante;
 import uce.edu.web.api.repository.modelo.Hijo;
 import uce.edu.web.api.service.IEstudianteService;
 import uce.edu.web.api.service.IHijoService;
@@ -31,6 +34,13 @@ import uce.edu.web.api.service.to.EstudianteTo;
 public class EstudianteController {
 
     @Inject
+    JsonWebToken jwt;
+
+    @Inject
+    @Claim("sub")
+    ClaimValue<String> subject;
+
+    @Inject
     private IEstudianteService estudianteService;
 
     @Inject
@@ -38,6 +48,7 @@ public class EstudianteController {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("admin")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Consultar estudiante por ID", description = "Obtiene un estudiante específico por su ID.")
